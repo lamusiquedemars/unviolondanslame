@@ -1,0 +1,133 @@
+/**
+ * Thème Un violon dans l'âme
+ *
+ * Identité propre au site : elle surcharge les jetons et quelques composants
+ * stables du Front System, sans modifier le socle Maracuja.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600;700&family=Parisienne&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+.theme-unviolondanslame {
+    --theme-name: 'unviolondanslame';
+    --font-signature: 'Parisienne', cursive;
+    --font-heading: 'Alegreya', Georgia, serif;
+    --font-body: 'Work Sans', ui-sans-serif, system-ui, sans-serif;
+
+    --color-bg: #f7f0e6;
+    --color-surface: #fffaf3;
+    --color-surface-muted: #ead8c2;
+    --color-text: #261a15;
+    --color-muted: #705d50;
+    --color-line: #cbb8a3;
+    --color-brand: #a8642a;
+    --color-brand-strong: #6a321f;
+    --color-brand-soft: #f1dbc7;
+    --color-link: #31545c;
+    --color-accent: #c46f4a;
+    --hero-overlay: linear-gradient(180deg, rgb(38 26 21 / 48%), rgb(38 26 21 / 24%));
+
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 8px 24px rgb(55 36 25 / 7%);
+    --shadow-soft: 0 18px 48px rgb(55 36 25 / 9%);
+}
+
+.theme-unviolondanslame a {
+    color: var(--color-link);
+}
+
+.theme-unviolondanslame .site-header {
+    position: relative;
+    background: var(--color-surface);
+    box-shadow: 0 0 0 100vmax var(--color-surface);
+    clip-path: inset(0 -100vmax);
+}
+
+.theme-unviolondanslame .site-brand strong {
+    color: var(--color-brand-strong);
+    font-family: var(--font-signature);
+    font-size: clamp(1.85rem, 3vw, 2.55rem);
+    font-weight: 400;
+    line-height: 0.8;
+}
+
+.theme-unviolondanslame .site-brand__mark {
+    border: 1px solid color-mix(in srgb, var(--color-brand), transparent 45%);
+    background: var(--color-brand-soft);
+    color: var(--color-brand-strong);
+}
+
+.theme-unviolondanslame .site-nav a:hover,
+.theme-unviolondanslame .site-nav a:focus-visible {
+    color: var(--color-brand-strong);
+}
+
+.theme-unviolondanslame .hero:not(.hero--image) {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+}
+
+.theme-unviolondanslame h1,
+.theme-unviolondanslame h2,
+.theme-unviolondanslame h3,
+.theme-unviolondanslame .heading {
+    color: var(--color-brand-strong);
+    font-weight: 500;
+}
+
+.theme-unviolondanslame .heading--accent::after,
+.theme-unviolondanslame .heading--underline::after {
+    background: var(--color-link);
+}
+
+.theme-unviolondanslame .heading--accent::before {
+    background: var(--color-accent);
+}
+
+.theme-unviolondanslame .btn {
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-weight: 600;
+}
+
+.theme-unviolondanslame .btn--primary {
+    background: var(--color-brand);
+    color: #fffaf3;
+}
+
+.theme-unviolondanslame .btn--primary:hover,
+.theme-unviolondanslame .btn--primary:focus-visible {
+    background: var(--color-brand-strong);
+    color: #ffffff;
+}
+
+.theme-unviolondanslame .btn--secondary:hover,
+.theme-unviolondanslame .btn--secondary:focus-visible {
+    border-color: var(--color-link);
+    color: var(--color-link);
+}
+
+.theme-unviolondanslame .card,
+.theme-unviolondanslame .cta,
+.theme-unviolondanslame .quote {
+    border-color: var(--color-line);
+    background: color-mix(in srgb, var(--color-surface), #ffffff 28%);
+}
+
+.theme-unviolondanslame .card--highlight,
+.theme-unviolondanslame .section--muted {
+    background: var(--color-surface-muted);
+}
+
+.theme-unviolondanslame input:focus,
+.theme-unviolondanslame select:focus,
+.theme-unviolondanslame textarea:focus {
+    border-color: var(--color-link);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-link), transparent 78%);
+}
+
+.theme-unviolondanslame .badge {
+    border-color: color-mix(in srgb, var(--color-accent), transparent 45%);
+    background: color-mix(in srgb, var(--color-accent), #ffffff 78%);
+    color: var(--color-brand-strong);
+}
