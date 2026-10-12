@@ -8,6 +8,9 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
             fonts: [
+                bunny('Parisienne', { weights: [400], preload: [{ weight: 400 }] }),
+                bunny('Alegreya', { weights: [400, 500, 600], preload: [{ weight: 500 }] }),
+                bunny('Work Sans', { weights: [400, 500, 600], preload: [{ weight: 400 }] }),
                 bunny('Instrument Sans', {
                     weights: [400, 500, 600],
                 }),

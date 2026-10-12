@@ -19,7 +19,7 @@
     <meta name="robots" content="{{ $seo['robots'] }}">
     <link rel="canonical" href="{{ $seo['canonical'] }}">
 
-    <meta property="og:site_name" content="{{ $seo['site_name'] }}">
+    <meta property="og:site_name" content="{{ $brandName ?? $seo['site_name'] }}">
     <meta property="og:title" content="{{ $seo['title'] }}">
     <meta property="og:description" content="{{ $seo['description'] }}">
     <meta property="og:type" content="{{ $seo['type'] }}">
@@ -40,9 +40,15 @@
         <link rel="icon" href="{{ \App\Support\Seo::absoluteUrl($settings->faviconUrl()) }}">
     @endif
 
+    @if (config('maracuja.theme') === 'unviolondanslame')
+        @fonts(['parisienne', 'alegreya', 'work-sans'])
+    @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="site-shell theme-{{ config('maracuja.theme', 'default') }}">
+    @hasSection('site-header')
+        @yield('site-header')
+    @else
     <header class="site-header container" data-nav>
         <a class="site-brand" href="{{ route('home') }}">
             @if ($brandLogo)
@@ -84,11 +90,15 @@
             <a href="/admin">Admin</a>
         </nav>
     </header>
+    @endif
 
-    <main>
+    <main id="contenu">
         @yield('content')
     </main>
 
+    @hasSection('site-footer')
+        @yield('site-footer')
+    @else
     <footer class="site-footer container">
         <p>&copy; {{ now()->year }} {{ $settings->site_name }}</p>
         <x-site.social-links :settings="$settings" />
@@ -99,6 +109,7 @@
             <a href="{{ route('pages.show', 'mentions-legales') }}">Mentions légales</a>
         @endif
     </footer>
+    @endif
 
     <button class="btn btn--primary back-to-top" type="button" data-back-to-top hidden aria-label="Retour en haut">
         <span class="back-to-top__icon" aria-hidden="true">↑</span>

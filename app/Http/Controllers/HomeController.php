@@ -28,7 +28,11 @@ class HomeController extends Controller
                 ->first()
             : null;
 
-        return view('site.home', [
+        $homeView = config('maracuja.theme') === 'unviolondanslame'
+            ? 'site.themes.unviolondanslame.home'
+            : 'site.home';
+
+        return view($homeView, [
             'settings' => $settings,
             'homePage' => $homePage,
             'contactUrl' => Modules::enabled('contact_form') ? route('contact') : null,
