@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Modules\Conversations\Console\Commands\PruneConversationsCommand;
 use App\Modules\Conversations\Contracts\ConversationAiProvider;
 use App\Modules\Conversations\Models\Conversation;
@@ -11,7 +12,7 @@ use App\Modules\Conversations\Providers\OpenAiConversationProvider;
 use App\Modules\Media\Models\MediaAsset;
 use App\Modules\Media\Policies\MediaAssetPolicy;
 use App\Modules\SiteSettings\Models\SiteSetting;
-use App\Models\User;
+use App\Support\ContentPermissions;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
@@ -68,6 +69,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function (User $user, string $ability, array $arguments): ?bool {
             $subject = $arguments[0] ?? null;
             $subjectClass = is_object($subject) ? $subject::class : $subject;
+
+            if (! ContentPermissions::allows($user, $subjectClass)) {
+                return false;
+            }
 
             // A viewer is read-only across the entire administration. This
             // must happen before model policies, so a permissive policy on a

@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Modules\Contacts\Models\Contact;
+use App\Modules\News\Models\NewsPost;
+use App\Modules\Notices\Models\SiteNotice;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
@@ -40,6 +42,20 @@ class AdminAccessTest extends TestCase
         $editor = User::factory()->create(['role' => User::ROLE_EDITOR, 'is_admin' => false]);
 
         $this->assertTrue(Gate::forUser($editor)->allows('create', Contact::class));
+    }
+
+    public function test_restricted_editor_only_accesses_explicit_content_capabilities(): void
+    {
+        $editor = User::factory()->create([
+            'role' => User::ROLE_EDITOR,
+            'is_admin' => false,
+            'content_permissions' => ['notices', 'inquiries', 'contacts'],
+        ]);
+
+        $this->assertTrue(Gate::forUser($editor)->allows('create', SiteNotice::class));
+        $this->assertFalse(Gate::forUser($editor)->allows('viewAny', NewsPost::class));
+        $this->actingAs($editor)->get('/admin/news-posts')->assertForbidden();
+        $this->actingAs($editor)->get('/admin/site-notices')->assertOk();
     }
 
     public function test_viewer_cannot_create_contacts(): void
