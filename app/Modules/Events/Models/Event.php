@@ -2,22 +2,25 @@
 
 namespace App\Modules\Events\Models;
 
-use App\Modules\Media\Concerns\TracksMediaUsages;
-use App\Modules\Media\Models\MediaAsset;
 use App\Modules\Venues\Models\Venue;
 use App\Support\MediaFiles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use Maracuja\SiteCore\Media\Concerns\TracksMediaUsages;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 
 class Event extends Model
 {
     use TracksMediaUsages;
 
     public const STATUS_SCHEDULED = 'scheduled';
+
     public const STATUS_CANCELLED = 'cancelled';
+
     public const STATUS_POSTPONED = 'postponed';
+
     public const STATUS_SOLD_OUT = 'sold_out';
 
     protected $fillable = [

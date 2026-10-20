@@ -3,13 +3,13 @@
 namespace Tests\Feature\Media;
 
 use App\Models\User;
-use App\Modules\Media\Enums\MediaType;
-use App\Modules\Media\Exceptions\MediaAssetInUseException;
-use App\Modules\Media\Models\MediaAsset;
-use App\Modules\Media\Models\MediaUsage;
 use App\Modules\Media\Policies\MediaAssetPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
+use Maracuja\SiteCore\Media\Enums\MediaType;
+use Maracuja\SiteCore\Media\Exceptions\MediaAssetInUseException;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
+use Maracuja\SiteCore\Media\Models\MediaUsage;
 use Tests\TestCase;
 
 class MediaAssetProtectionTest extends TestCase

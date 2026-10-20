@@ -3,8 +3,8 @@
 namespace App\Modules\Media\Services;
 
 use App\Modules\Media\Models\MediaAsset;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 class MediaMigrationPlanner
@@ -141,6 +141,7 @@ class MediaMigrationPlanner
                     $plan['entries'][$index]['media_asset_id'] = $existing->id;
                     $plan['entries'][$index]['created_by_manifest'] = false;
                     $this->saveManifest($name, $plan);
+
                     continue;
                 }
 
@@ -321,7 +322,14 @@ class MediaMigrationPlanner
 
     private function isAllowedPrivatePath(string $path): bool
     {
-        return Str::startsWith($path, ['imports/', 'exports/', 'temporary/', 'livewire-tmp/']);
+        return Str::startsWith($path, [
+            'imports/',
+            'exports/',
+            'temporary/',
+            'livewire-tmp/',
+            'media/originals/',
+            'media-migrations/',
+        ]);
     }
 
     private function extensionForMime(string $mime): string

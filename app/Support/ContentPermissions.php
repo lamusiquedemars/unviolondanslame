@@ -14,14 +14,14 @@ use App\Modules\ContentSlots\Models\ContentSlot;
 use App\Modules\Conversations\Models\Conversation;
 use App\Modules\Conversations\Models\ConversationSetting;
 use App\Modules\Events\Models\Event;
-use App\Modules\Gallery\Models\Gallery;
 use App\Modules\Inquiries\Models\Inquiry;
-use App\Modules\Media\Models\MediaAsset;
 use App\Modules\News\Models\NewsPost;
 use App\Modules\Notices\Models\SiteNotice;
 use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Modules\Venues\Models\Venue;
+use Maracuja\SiteCore\Gallery\Models\Gallery;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 
 class ContentPermissions
 {

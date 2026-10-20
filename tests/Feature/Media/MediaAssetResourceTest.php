@@ -3,15 +3,15 @@
 namespace Tests\Feature\Media;
 
 use App\Models\User;
-use App\Modules\Media\Enums\MediaType;
-use App\Modules\Media\Filament\Resources\MediaAssets\MediaAssetResource;
-use App\Modules\Media\Filament\Resources\MediaAssets\Pages\ManageMediaAssets;
-use App\Modules\Media\Models\MediaAsset;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use Maracuja\SiteCore\Media\Enums\MediaType;
+use Maracuja\SiteCore\Media\Filament\Resources\MediaAssets\MediaAssetResource;
+use Maracuja\SiteCore\Media\Filament\Resources\MediaAssets\Pages\ManageMediaAssets;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 use Tests\TestCase;
 
 class MediaAssetResourceTest extends TestCase

@@ -3,11 +3,9 @@
 namespace App\Filament\Resources\SiteSettings;
 
 use App\Filament\Resources\SiteSettings\Pages\ManageSiteSettings;
-use App\Modules\Media\Filament\Forms\Components\MediaPicker;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Support\Modules;
 use BackedEnum;
-use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -21,6 +19,8 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Maracuja\SiteCore\Media\Filament\Forms\Components\MediaPicker;
+use UnitEnum;
 
 class SiteSettingResource extends Resource
 {

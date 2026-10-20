@@ -6,10 +6,12 @@
     "keywords": ["laravel", "filament", "cms", "showcase", "maracuja"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4.1",
         "filament/filament": "^4.0",
         "laravel/framework": "^13.8",
-        "laravel/tinker": "^3.0"
+        "laravel/tinker": "^3.0",
+        "maracuja-digital/site-core-gallery": "^0.4",
+        "maracuja-digital/site-core-media": "^0.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -27,6 +29,16 @@
             "Database\\Seeders\\": "database/seeders/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lamusiquedemars/maracuja-site-core-media.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/lamusiquedemars/maracuja-site-core-gallery.git"
+        }
+    ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

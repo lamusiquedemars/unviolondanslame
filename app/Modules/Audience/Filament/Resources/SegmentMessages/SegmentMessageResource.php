@@ -5,12 +5,12 @@ namespace App\Modules\Audience\Filament\Resources\SegmentMessages;
 use App\Modules\Audience\Actions\DispatchSegmentMessage;
 use App\Modules\Audience\Actions\SendPendingSegmentMessages;
 use App\Modules\Audience\Filament\Resources\SegmentMessages\Pages\ManageSegmentMessages;
+use App\Modules\Audience\Mail\SegmentMessageMail;
+use App\Modules\Audience\Models\AudienceContact;
 use App\Modules\Audience\Models\SegmentMessage;
-use App\Modules\Media\Filament\Forms\Components\MaracujaRichEditor;
 use App\Support\Modules;
 use BackedEnum;
 use Carbon\CarbonImmutable;
-use UnitEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -28,6 +28,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema as SchemaFacade;
+use Maracuja\SiteCore\Media\Filament\Forms\Components\MaracujaRichEditor;
+use UnitEnum;
 
 class SegmentMessageResource extends Resource
 {
@@ -178,12 +180,12 @@ class SegmentMessageResource extends Resource
                             ->required(),
                     ])
                     ->action(function (SegmentMessage $record, array $data): void {
-                        $contact = new \App\Modules\Audience\Models\AudienceContact([
+                        $contact = new AudienceContact([
                             'email' => $data['email'],
                             'accepts_email' => true,
                         ]);
 
-                        Mail::to($data['email'])->send(new \App\Modules\Audience\Mail\SegmentMessageMail($record, $contact));
+                        Mail::to($data['email'])->send(new SegmentMessageMail($record, $contact));
 
                         Notification::make()
                             ->title('Email de test envoyé')
@@ -263,7 +265,7 @@ class SegmentMessageResource extends Resource
                     ->label('Rapport')
                     ->icon(Heroicon::OutlinedListBullet)
                     ->modalWidth(Width::SevenExtraLarge)
-                    ->modalHeading(fn (SegmentMessage $record): string => 'Rapport - ' . $record->subject)
+                    ->modalHeading(fn (SegmentMessage $record): string => 'Rapport - '.$record->subject)
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel('Fermer')
                     ->modalContent(fn (SegmentMessage $record) => view('filament.audience.segment-message-deliveries', [

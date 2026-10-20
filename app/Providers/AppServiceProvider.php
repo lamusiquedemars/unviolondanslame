@@ -9,12 +9,12 @@ use App\Modules\Conversations\Models\Conversation;
 use App\Modules\Conversations\Policies\ConversationPolicy;
 use App\Modules\Conversations\Providers\FakeConversationAiProvider;
 use App\Modules\Conversations\Providers\OpenAiConversationProvider;
-use App\Modules\Media\Models\MediaAsset;
 use App\Modules\Media\Policies\MediaAssetPolicy;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Support\ContentPermissions;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
