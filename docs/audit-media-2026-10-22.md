@@ -2,6 +2,9 @@
 
 **Date : 22 octobre 2026. Portée : lecture seule locale.**
 
+> **État de livraison : local uniquement.** Aucune production, domaine public,
+> cible SSH ou validation d'hébergement n'existe pour ce site à cette date.
+
 > **Statut : clos.** Le problème historique d’ajout de photos a été résolu,
 > confirmé par le responsable du site. La cause technique de l'incident initial
 > n'a pas été conservée ; aucune investigation serveur complémentaire n'est
@@ -30,7 +33,7 @@ la maintenance future.
 Les cinq originaux privés actuellement présents sont des doublons de contenu.
 Ce constat est informatif et ne justifie aucune suppression automatique.
 
-## Référence en cas de nouvel incident
+## Référence si un nouvel incident survient après une future mise en hébergement
 
 Si un nouvel échec se produit, vérifier par ordre :
 
