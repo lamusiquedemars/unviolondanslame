@@ -1,17 +1,18 @@
-# Audit prioritaire Media — Un Violon dans l’Âme
+# Archive — audit Media d’Un Violon dans l’Âme
 
 **Date : 22 octobre 2026. Portée : lecture seule locale.**
+
+> **Statut : clos.** Le problème historique d’ajout de photos a été résolu,
+> confirmé par le responsable du site. La cause technique de l'incident initial
+> n'a pas été conservée ; aucune investigation serveur complémentaire n'est
+> requise sans nouveau symptôme.
 
 ## Conclusion actuelle
 
 La capacité Media locale est saine et utilise déjà les packages partagés
-Maracuja Site Core Media et Gallery. L'incident historique d'ajout de photos
-ne peut pas être attribué au code local à partir des preuves disponibles :
-aucune erreur d'upload image n'est présente dans le journal local.
-
-Il serait donc incorrect de conclure que la médiathèque est uniforme en
-production, ou au contraire que le Core est fautif, sans relever l'état du
-serveur où l'échec est survenu.
+Maracuja Site Core Media et Gallery. Cet audit ne permet pas d'attribuer la
+cause historique au code local ; il conserve seulement les constats utiles à
+la maintenance future.
 
 ## Preuves locales relevées
 
@@ -29,9 +30,9 @@ serveur où l'échec est survenu.
 Les cinq originaux privés actuellement présents sont des doublons de contenu.
 Ce constat est informatif et ne justifie aucune suppression automatique.
 
-## Cause possible à vérifier en production
+## Référence en cas de nouvel incident
 
-Les causes encore ouvertes sont, par ordre de vérification :
+Si un nouvel échec se produit, vérifier par ordre :
 
 1. limites PHP du pool/webserver réellement utilisé (`upload_max_filesize`,
    `post_max_size`, `memory_limit`, timeout) ;
@@ -44,7 +45,7 @@ Les causes encore ouvertes sont, par ordre de vérification :
 6. fichier source réellement soumis : poids, pixels, HEIC/HEIF ou fichier
    endommagé.
 
-## Procédure de preuve sur le serveur concerné
+## Procédure de preuve à utiliser uniquement si le problème réapparaît
 
 Avant toute correction : conserver l'heure précise, l'utilisateur, le fichier
 de test et le message visible. Rejouer ensuite un JPEG WebP-compatible de
@@ -65,9 +66,7 @@ pour les images publiques ordinaires, originaux privés locaux. Scaleway ne
 sera envisagé ici que pour un besoin justifié de documents métier privés, pas
 comme remède automatique à un upload photo.
 
-## Critère de clôture
+## Clôture
 
-L'incident est clôturé uniquement lorsqu'une reproduction production est
-documentée, corrigée, puis validée par un import JPEG/PNG/WebP et, si proposé,
-HEIC/HEIF. Le diagnostic doit alors indiquer si la cause était code,
-configuration, infrastructure ou fichier source.
+L'incident historique est clos. Cette fiche est une archive de diagnostic et
+ne constitue pas une tâche active.
