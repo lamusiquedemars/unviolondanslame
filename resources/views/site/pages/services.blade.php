@@ -1,67 +1,39 @@
 @extends('layouts.site', [
-    'seoTitle' => $page->seo_title,
-    'seoDescription' => $page->seo_description,
+    'seoTitle' => $page->seo_title ?? "Services de lutherie | Un violon dans l’âme",
+    'seoDescription' => $page->seo_description ?? 'Réparation, restauration, réglage et entretien des instruments du quatuor à Décines-Charpieu.',
     'seoImage' => $page->heroImageUrl(),
 ])
 
 @section('content')
     <x-site.hero
-        variant="page"
-        :title="$page->hero_title ?? $page->title"
-        :subtitle="$page->hero_subtitle ?? $page->excerpt"
+        eyebrow="Services de lutherie"
+        :title="$page->hero_title ?? 'Prendre soin de votre instrument'"
+        :subtitle="$page->hero_subtitle ?? 'Réparation, restauration, réglage et entretien des instruments du quatuor et des archets.'"
         :image="$page->heroImageUrl()"
         :cta-url="$contactUrl"
-        cta-label="{{ \App\Support\ContentSlots::value('services.hero.cta_label', 'Parler du projet') }}"
+        cta-label="Contacter David"
     />
 
-    <x-site.breadcrumb :items="[
-        ['label' => $page->title],
-    ]" />
-
-    <x-site.section
-        :title="\App\Support\ContentSlots::value('services.offers.title', 'Trois niveaux, un même socle')"
-        :intro="\App\Support\ContentSlots::value('services.offers.intro', 'La différence se joue sur la richesse du contenu, les modules actifs et le degré de personnalisation.')"
-        heading-variant="accent">
+    <x-site.section title="À l’atelier">
         <x-site.grid columns="3">
-            <x-site.card title="Essence" :kicker="\App\Support\ContentSlots::value('services.essence.price', 'À partir de 1500')" variant="featured">
-                {{ \App\Support\ContentSlots::value('services.essence.description', 'Pages essentielles, contact, SEO de base, thème simple et administration limitée aux contenus utiles.') }}
-            </x-site.card>
-
-            <x-site.card title="Signature" :kicker="\App\Support\ContentSlots::value('services.signature.price', 'Sur devis cadre')" variant="highlight">
-                {{ \App\Support\ContentSlots::value('services.signature.description', 'Structure plus riche, actualités, galerie, sections de preuve, CTA, media system et finitions thème.') }}
-            </x-site.card>
-
-            <x-site.card title="Univers" :kicker="\App\Support\ContentSlots::value('services.univers.price', 'Sur devis métier')">
-                {{ \App\Support\ContentSlots::value('services.univers.description', 'Module métier client, catalogue (avec ou sans paiement), workflow spécifique ou intégration externe selon le besoin.') }}
-            </x-site.card>
+            <x-site.card title="Réglage et entretien" kicker="Au quotidien">Pour retrouver le confort de jeu, la justesse et la réponse que vous attendez de votre instrument.</x-site.card>
+            <x-site.card title="Réparation" kicker="Avec attention">Une intervention adaptée à l’état de l’instrument, à son usage et à son histoire.</x-site.card>
+            <x-site.card title="Restauration" kicker="Dans le respect">Préserver les matières, les traces du temps et les qualités musicales de l’instrument.</x-site.card>
         </x-site.grid>
     </x-site.section>
 
-    <x-site.section
-        variant="muted"
-        :title="\App\Support\ContentSlots::value('services.common.title', 'Ce qui reste commun')"
-        heading-variant="underline">
-        <x-site.grid columns="2">
-            <x-site.feature-card title="Socle technique" icon="A">
-                {{ \App\Support\ContentSlots::value('services.common.tech.text', 'Laravel, Filament, modules activables, migrations, seeders, tests et conventions de livraison.') }}
-            </x-site.feature-card>
-            <x-site.feature-card title="Socle front" icon="B">
-                {{ \App\Support\ContentSlots::value('services.common.front.text', 'Composants Blade, CSS maison, JS progressif, media system et thèmes clients.') }}
-            </x-site.feature-card>
-        </x-site.grid>
-    </x-site.section>
+    @if ($restorationGalleries->isNotEmpty())
+        <x-site.section title="Quelques restaurations" intro="Des réalisations choisies dans l’atelier. Chaque galerie raconte une intervention, en images.">
+            <div class="uv-restoration-list">
+                @foreach ($restorationGalleries as $gallery)
+                <article class="uv-restoration">
+                    <div><p class="eyebrow">Restauration</p><h2>{{ $gallery->title }}</h2>@if ($gallery->intro)<p>{{ $gallery->intro }}</p>@endif</div>
+                    <x-site.gallery :images="$gallery->images()->where('is_published', true)->get()" layout="featured" lightbox />
+                </article>
+                @endforeach
+            </div>
+        </x-site.section>
+    @endif
 
-    <x-site.section>
-        <x-site.cta
-            :title="\App\Support\ContentSlots::value('services.cta.title', 'Une offre simple à expliquer')"
-            :text="\App\Support\ContentSlots::value('services.cta.text', 'Le client choisit un niveau de site. Le développeur garde un socle commun versionné.')"
-            :href="$contactUrl"
-            :label="\App\Support\ContentSlots::value('services.cta.label', 'Présenter un projet')"
-            inline
-        />
-
-        <div class="stack stack--md">
-            <x-site.back-link :href="route('home')" label="Retour à l'accueil" />
-        </div>
-    </x-site.section>
+    <x-site.section variant="surface"><x-site.cta title="Parlons de votre instrument" text="Expliquez votre besoin à David pour préparer un rendez-vous à l’atelier." :href="$contactUrl" label="Prendre rendez-vous" inline /></x-site.section>
 @endsection

@@ -5,5 +5,6 @@
 return [
     'load_migrations' => false,
     'system_slug' => config('maracuja.gallery.slug', 'home'),
+    'max_user_galleries' => 4,
     'legacy_disk' => 'public',
 ];

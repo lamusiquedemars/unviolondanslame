@@ -37,6 +37,8 @@ class HomeController extends Controller
             'homePage' => $homePage,
             'contactUrl' => Modules::enabled('contact_form') ? route('contact') : null,
             'servicesUrl' => $servicesPage ? route('pages.show', $servicesPage->slug) : null,
+            'instrumentsUrl' => route('instruments.index'),
+            'atelierUrl' => route('pages.show', 'atelier'),
             'homeNotice' => Modules::enabled('notices')
                 ? SiteNotice::query()->visible()->forPlacement('home')->latest('starts_at')->first()
                 : null,

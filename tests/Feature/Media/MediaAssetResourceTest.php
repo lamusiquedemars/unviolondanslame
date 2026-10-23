@@ -25,6 +25,11 @@ class MediaAssetResourceTest extends TestCase
         Storage::fake('public');
     }
 
+    public function test_livewire_temporary_uploads_allow_the_media_library_image_limit(): void
+    {
+        $this->assertSame(['required', 'file', 'max:25600'], config('livewire.temporary_file_upload.rules'));
+    }
+
     public function test_an_administrator_can_open_the_media_library_and_see_a_media_card(): void
     {
         $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'is_admin' => true]);

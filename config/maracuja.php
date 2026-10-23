@@ -15,6 +15,8 @@ return [
         'slug' => env('MARACUJA_GALLERY_SLUG', 'home'),
         'layout' => env('MARACUJA_GALLERY_LAYOUT', 'grid'),
         'lightbox' => env('MARACUJA_GALLERY_LIGHTBOX', true),
+        // The Services page presents a deliberately short selection of restorations.
+        'restoration_limit' => 4,
     ],
 
     'news' => [
@@ -105,10 +107,10 @@ return [
         'notices' => env('MARACUJA_MODULE_NOTICES', true),
         'content_slots' => env('MARACUJA_MODULE_CONTENT_SLOTS', true),
         'pages' => env('MARACUJA_MODULE_PAGES', true),
-        'news' => env('MARACUJA_MODULE_NEWS', true),
-        'articles' => env('MARACUJA_MODULE_ARTICLES', true),
-        'venues' => env('MARACUJA_MODULE_VENUES', true),
-        'events' => env('MARACUJA_MODULE_EVENTS', true),
+        'news' => env('MARACUJA_MODULE_NEWS', false),
+        'articles' => env('MARACUJA_MODULE_ARTICLES', false),
+        'venues' => env('MARACUJA_MODULE_VENUES', false),
+        'events' => env('MARACUJA_MODULE_EVENTS', false),
         'gallery' => env('MARACUJA_MODULE_GALLERY', true),
         'contact_form' => env('MARACUJA_MODULE_CONTACT_FORM', true),
         'inquiries' => env('MARACUJA_MODULE_INQUIRIES', true),

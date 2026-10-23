@@ -71,6 +71,12 @@
         </button>
 
         <nav class="site-nav" data-nav-menu aria-label="Navigation principale">
+            @if (config('maracuja.theme') === 'unviolondanslame')
+                <a href="{{ route('pages.show', 'services') }}">Services</a>
+                <a href="{{ route('instruments.index') }}">Instruments</a>
+                <a href="{{ route('pages.show', 'atelier') }}">L’atelier</a>
+                <a href="{{ route('contact') }}">Contact</a>
+            @else
             <a href="{{ route('home') }}">Accueil</a>
             @if (\App\Support\Modules::enabled('news'))
                 <a href="{{ route('news.index') }}">Actualités</a>
@@ -88,6 +94,7 @@
                 <a href="{{ route('contact') }}">Contact</a>
             @endif
             <a href="/admin">Admin</a>
+            @endif
         </nav>
     </header>
     @endif
@@ -98,6 +105,8 @@
 
     @hasSection('site-footer')
         @yield('site-footer')
+    @elseif (config('maracuja.theme') === 'unviolondanslame')
+        <x-unviolondanslame.footer :settings="$settings" />
     @else
     <footer class="site-footer container">
         <p>&copy; {{ now()->year }} {{ $settings->site_name }}</p>

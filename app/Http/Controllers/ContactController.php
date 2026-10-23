@@ -39,20 +39,19 @@ class ContactController extends Controller
             'email' => ['required', 'string', 'max:160', 'email:rfc', 'regex:/^[^@\s]+@[^@\s]+\.[^@\s]+$/'],
             'message' => ['required', 'string', 'max:5000'],
             'phone' => ['nullable', 'string', 'max:60'],
-            'subject' => ['nullable', 'string', 'max:160'],
+            'subject' => ['required', 'string', 'in:repair,adjustment,restoration,purchase_or_trial,rental,other'],
+            'name' => ['required', 'string', 'max:120'],
         ];
 
-        if ($settings->contact_form_show_name) {
-            $rules['name'] = ['required', 'string', 'max:120'];
-        } else {
-            $rules['name'] = ['sometimes', 'nullable', 'string', 'max:120'];
-        }
-
         $data = $request->validate($rules);
-
-        if (! $settings->contact_form_show_name) {
-            $data['name'] = $data['email'];
-        }
+        $data['subject'] = [
+            'repair' => 'Réparation',
+            'adjustment' => 'Réglage',
+            'restoration' => 'Restauration',
+            'purchase_or_trial' => 'Achat ou essai',
+            'rental' => 'Location',
+            'other' => 'Autre',
+        ][$data['subject']];
 
         $message = ContactMessage::fromArray($data);
 

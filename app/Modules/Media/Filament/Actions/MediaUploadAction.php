@@ -16,10 +16,10 @@ class MediaUploadAction
     public static function make(?MediaType $type = null): Action
     {
         $acceptedFileTypes = match ($type) {
-            MediaType::Image => ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'],
+            MediaType::Image => self::imageFileTypes(),
             MediaType::Document => ['application/pdf'],
             MediaType::Video => ['video/mp4', 'video/webm'],
-            null => ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif', 'application/pdf', 'video/mp4', 'video/webm'],
+            null => [...self::imageFileTypes(), 'application/pdf', 'video/mp4', 'video/webm'],
         };
         $maximumSize = (int) config(match ($type) {
             MediaType::Image => 'maracuja.media.image_max_size_kb',
@@ -38,6 +38,9 @@ class MediaUploadAction
                     ->multiple()
                     ->storeFiles(false)
                     ->acceptedFileTypes($acceptedFileTypes)
+                    // Preserve the original; the server creates the WebP variants.
+                    // HEIC has no browser-side EXIF support in Safari.
+                    ->orientImagesFromExif(false)
                     ->maxSize($maximumSize)
                     ->required(),
             ])
@@ -65,5 +68,14 @@ class MediaUploadAction
             MediaType::Video => 'Vidéos MP4 ou WebM, 100 Mo maximum.',
             null => 'Images jusqu’à 25 Mo, documents PDF et vidéos MP4 ou WebM. Les images sont préparées automatiquement pour le web.',
         };
+    }
+
+    /** @return list<string> */
+    private static function imageFileTypes(): array
+    {
+        return [
+            'image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif',
+            '.jpg', '.jpeg', '.webp', '.heic', '.heif',
+        ];
     }
 }

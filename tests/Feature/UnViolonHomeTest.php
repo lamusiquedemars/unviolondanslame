@@ -21,6 +21,10 @@ class UnViolonHomeTest extends TestCase
             'title' => 'Services', 'slug' => 'services',
             'template' => 'services', 'is_published' => true,
         ]);
+        Page::query()->create([
+            'title' => 'Atelier', 'slug' => 'atelier',
+            'template' => 'atelier', 'is_published' => true,
+        ]);
 
         $response = $this->get('/')->assertOk()
             ->assertSee("Luthier à Décines-Charpieu | Un violon dans l'âme")
@@ -34,7 +38,7 @@ class UnViolonHomeTest extends TestCase
         $xpath = new DOMXPath($dom);
         $this->assertSame(1, $xpath->query('//h1')->length);
         $this->assertSame(4, $xpath->query('//main/section')->length);
-        $this->assertSame(5, $xpath->query('//nav/a')->length);
+        $this->assertSame(4, $xpath->query('//nav/a')->length);
         $this->assertSame(0, $xpath->query('//main//form | //main//video')->length);
 
         foreach ($xpath->query('//main//a | //nav/a') as $link) {
