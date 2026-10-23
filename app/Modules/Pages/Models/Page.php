@@ -2,12 +2,12 @@
 
 namespace App\Modules\Pages\Models;
 
-use App\Modules\Media\Concerns\TracksMediaUsages;
-use App\Modules\Media\Models\MediaAsset;
 use App\Support\MediaFiles;
 use App\Support\Modules;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Maracuja\SiteCore\Media\Concerns\TracksMediaUsages;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 
 class Page extends Model
 {

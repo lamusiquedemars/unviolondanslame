@@ -2,8 +2,8 @@
 
 namespace App\Support;
 
-use App\Modules\Media\Models\MediaAsset;
 use Illuminate\Support\HtmlString;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 
 class ArticleBlocks
 {
@@ -57,8 +57,8 @@ class ArticleBlocks
         }
 
         return '<div class="article-block article-block--text">'
-            . self::cleanRichText($text)
-            . '</div>';
+            .self::cleanRichText($text)
+            .'</div>';
     }
 
     private static function image(array $block, ?MediaAsset $media): string
@@ -68,14 +68,14 @@ class ArticleBlocks
             return '';
         }
 
-        $resolvedSrc = str_starts_with($src, '/') || str_starts_with($src, 'http') ? $src : asset('storage/' . $src);
+        $resolvedSrc = str_starts_with($src, '/') || str_starts_with($src, 'http') ? $src : asset('storage/'.$src);
         $caption = trim((string) ($block['caption'] ?? $media?->caption ?? ''));
         $alt = trim((string) ($block['alt'] ?? $media?->alt_text ?? ''));
 
         return '<figure class="media-figure article-block article-block--image">'
-            . sprintf('<img src="%s" alt="%s" loading="lazy" decoding="async">', e($resolvedSrc), e($alt))
-            . ($caption !== '' ? '<figcaption class="media-figure__caption"><span>' . e($caption) . '</span></figcaption>' : '')
-            . '</figure>';
+            .sprintf('<img src="%s" alt="%s" loading="lazy" decoding="async">', e($resolvedSrc), e($alt))
+            .($caption !== '' ? '<figcaption class="media-figure__caption"><span>'.e($caption).'</span></figcaption>' : '')
+            .'</figure>';
     }
 
     private static function quote(array $block): string
@@ -88,9 +88,9 @@ class ArticleBlocks
         $author = trim((string) ($block['author'] ?? ''));
 
         return '<figure class="quote article-block article-block--quote">'
-            . '<blockquote class="quote__text">' . e($quote) . '</blockquote>'
-            . ($author !== '' ? '<figcaption class="quote__meta">' . e($author) . '</figcaption>' : '')
-            . '</figure>';
+            .'<blockquote class="quote__text">'.e($quote).'</blockquote>'
+            .($author !== '' ? '<figcaption class="quote__meta">'.e($author).'</figcaption>' : '')
+            .'</figure>';
     }
 
     private static function note(array $block): string
@@ -101,8 +101,8 @@ class ArticleBlocks
         }
 
         return '<aside class="article-note article-block">'
-            . self::cleanRichText($text)
-            . '</aside>';
+            .self::cleanRichText($text)
+            .'</aside>';
     }
 
     private static function table(array $block): string
@@ -118,15 +118,15 @@ class ArticleBlocks
 
         $body = $rows
             ->map(function (array $columns): string {
-                return '<tr>' . collect($columns)
-                    ->map(fn (string $column): string => '<td>' . e($column) . '</td>')
-                    ->implode('') . '</tr>';
+                return '<tr>'.collect($columns)
+                    ->map(fn (string $column): string => '<td>'.e($column).'</td>')
+                    ->implode('').'</tr>';
             })
             ->implode('');
 
         return '<div class="article-block article-block--table"><table class="table table--featured"><tbody>'
-            . $body
-            . '</tbody></table></div>';
+            .$body
+            .'</tbody></table></div>';
     }
 
     private static function cleanRichText(string $html): string

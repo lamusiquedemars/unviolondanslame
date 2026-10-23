@@ -3,12 +3,9 @@
 namespace App\Filament\Resources\Pages;
 
 use App\Filament\Resources\Pages\Pages\ManagePages;
-use App\Modules\Media\Filament\Forms\Components\MediaPicker;
-use App\Modules\Media\Filament\Forms\Components\MaracujaRichEditor;
 use App\Modules\Pages\Models\Page;
 use App\Support\Modules;
 use BackedEnum;
-use UnitEnum;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -22,6 +19,9 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Maracuja\SiteCore\Media\Filament\Forms\Components\MaracujaRichEditor;
+use Maracuja\SiteCore\Media\Filament\Forms\Components\MediaPicker;
+use UnitEnum;
 
 class PageResource extends Resource
 {

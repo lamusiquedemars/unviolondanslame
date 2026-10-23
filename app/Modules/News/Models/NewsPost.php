@@ -2,12 +2,12 @@
 
 namespace App\Modules\News\Models;
 
-use App\Modules\Media\Concerns\TracksMediaUsages;
-use App\Modules\Media\Models\MediaAsset;
 use App\Support\MediaFiles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Maracuja\SiteCore\Media\Concerns\TracksMediaUsages;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 
 class NewsPost extends Model
 {

@@ -23,6 +23,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Maracuja\SiteCore\Gallery\Filament\Resources\Galleries\GalleryResource;
+use Maracuja\SiteCore\Media\Filament\Resources\MediaAssets\MediaAssetResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -107,12 +109,10 @@ class AdminPanelProvider extends PanelProvider
             );
         }
 
-        if (is_dir(app_path('Modules/Media/Filament/Resources'))) {
-            $panel->discoverResources(
-                in: app_path('Modules/Media/Filament/Resources'),
-                for: 'App\Modules\Media\Filament\Resources',
-            );
-        }
+        $panel->resources(array_filter([
+            MediaAssetResource::class,
+            Modules::enabled('gallery') ? GalleryResource::class : null,
+        ]));
 
         return $panel;
     }

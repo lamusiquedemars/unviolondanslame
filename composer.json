@@ -6,10 +6,12 @@
     "keywords": ["laravel", "filament", "cms", "showcase", "maracuja"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4.1",
         "filament/filament": "^4.0",
         "laravel/framework": "^13.8",
-        "laravel/tinker": "^3.0"
+        "laravel/tinker": "^3.0",
+        "maracuja-digital/site-core-gallery": "@dev",
+        "maracuja-digital/site-core-media": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -27,6 +29,15 @@
             "Database\\Seeders\\": "database/seeders/"
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../maracuja-site-core/packages/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
