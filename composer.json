@@ -95,13 +95,6 @@
             "php-http/discovery": true
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../maracuja-site-core/packages/*",
-            "options": { "symlink": true }
-        }
-    ],
     "minimum-stability": "stable",
     "prefer-stable": true
 }
