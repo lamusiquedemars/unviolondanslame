@@ -28,7 +28,7 @@
     <section class="section uv-hero hero--image" aria-labelledby="accueil-titre" style="{{ $heroStyle }}">
         <div class="container split">
             <div class="uv-hero__text">
-                <p class="eyebrow">Atelier de lutherie · Décines-Charpieu</p>
+                <p class="eyebrow">David Gellé · Luthier · Décines-Charpieu</p>
                 <h1 id="accueil-titre">Un violon dans l'âme</h1>
                 <p class="uv-hero__promise">Au service des instruments<br class="uv-desktop-break"> et de ceux qui les font vivre.</p>
                 <p class="uv-hero__description">Dans mon atelier à Décines-Charpieu, je règle, entretiens, répare et restaure violons, altos, violoncelles et contrebasses. Je propose aussi des instruments à la vente et à la location, et vous reçois sur rendez-vous.</p>
