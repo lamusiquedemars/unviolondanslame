@@ -55,7 +55,7 @@
                 <span class="site-brand__mark site-brand__mark--image" aria-hidden="true">
                     <img src="{{ $brandLogo }}" alt="">
                 </span>
-            @else
+            @elseif (config('maracuja.theme') !== 'unviolondanslame')
                 <span class="site-brand__mark">M</span>
             @endif
             <span>

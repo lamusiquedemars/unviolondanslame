@@ -384,10 +384,51 @@
     .theme-unviolondanslame .uv-photo__label { font-size: 1.25rem; }
 }
 @media (max-width: 800px) {
-    .theme-unviolondanslame .uv-hero .split { grid-template-columns: 1fr; }
-    .theme-unviolondanslame .uv-hero { padding-block: 40px; }
+    .theme-unviolondanslame .uv-hero {
+        position: relative;
+        isolation: isolate;
+        display: grid;
+        min-height: 680px;
+        overflow: hidden;
+        padding-block: 88px 72px;
+    }
+    .theme-unviolondanslame .uv-hero::before {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        background: linear-gradient(180deg, rgb(26 16 11 / 68%), rgb(26 16 11 / 52%));
+        content: '';
+    }
+    .theme-unviolondanslame .uv-hero .split {
+        position: relative;
+        z-index: 2;
+        grid-template-columns: 1fr;
+    }
+    .theme-unviolondanslame .uv-hero__photo {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        aspect-ratio: auto;
+        border-radius: 0;
+    }
+    .theme-unviolondanslame .uv-hero__photo img {
+        object-position: center;
+    }
+    .theme-unviolondanslame .uv-hero :where(h1, .uv-hero__promise, .uv-hero__description, .eyebrow) {
+        color: #fffaf3;
+        text-shadow: 0 1px 18px rgb(0 0 0 / 24%);
+    }
+    .theme-unviolondanslame .uv-hero .btn--secondary {
+        border-color: rgb(255 250 243 / 78%);
+        color: #fffaf3;
+    }
+    .theme-unviolondanslame .uv-hero .btn--secondary:hover,
+    .theme-unviolondanslame .uv-hero .btn--secondary:focus-visible {
+        border-color: #fffaf3;
+        background: rgb(255 250 243 / 14%);
+        color: #fffaf3;
+    }
     .theme-unviolondanslame .uv-hero h1 { font-size: clamp(3.15rem, 9vw, 4.5rem); }
-    .theme-unviolondanslame .uv-hero__photo { aspect-ratio: 4 / 3; }
     .theme-unviolondanslame .uv-hero__description { max-width: 65ch; }
     .theme-unviolondanslame .uv-work .uv-photo { aspect-ratio: 4 / 3; }
 }
