@@ -425,6 +425,11 @@
         color: #fffaf3;
         text-shadow: 0 1px 18px rgb(0 0 0 / 24%);
     }
+    .theme-unviolondanslame .uv-hero .eyebrow {
+        color: #ffd8a5;
+        font-weight: 600;
+        text-shadow: 0 1px 14px rgb(0 0 0 / 46%);
+    }
     .theme-unviolondanslame .uv-hero .btn--secondary {
         border-color: rgb(255 250 243 / 78%);
         color: #fffaf3;
