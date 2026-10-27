@@ -21,7 +21,11 @@
     </header>
 @endsection
 @section('content')
-    <section class="section uv-hero" aria-labelledby="accueil-titre">
+    @php
+        $heroImage = $homePage?->heroImageUrl() ?? config('unviolondanslame.photos.hero.src');
+        $heroStyle = $heroImage ? "--hero-image: url('{$heroImage}'); background-image: var(--hero-image);" : null;
+    @endphp
+    <section class="section uv-hero hero--image" aria-labelledby="accueil-titre" style="{{ $heroStyle }}">
         <div class="container split">
             <div class="uv-hero__text">
                 <p class="eyebrow">Atelier de lutherie · Décines-Charpieu</p>
