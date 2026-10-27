@@ -23,7 +23,7 @@ class ContactController extends Controller
         return view('site.contact', [
             'settings' => SiteSetting::current(),
             'page' => Modules::enabled('pages')
-                ? Page::query()->where('slug', 'contact')->where('is_published', true)->first()
+                ? Page::query()->with('heroMedia')->where('slug', 'contact')->where('is_published', true)->first()
                 : null,
         ]);
     }
@@ -70,7 +70,7 @@ class ContactController extends Controller
         return redirect()
             ->route('contact')
             ->with('status', Modules::enabled('inquiries')
-                ? 'Votre message a bien été enregistré. Nous répondrons dans les meilleurs délais.'
-                : 'Votre message a bien été envoyé.');
+                ? 'Merci, j’ai bien reçu votre message. Je vous répondrai dans les meilleurs délais.'
+                : 'Merci, j’ai bien reçu votre message.');
     }
 }

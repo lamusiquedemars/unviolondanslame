@@ -75,6 +75,22 @@
     color: #ffffff;
 }
 
+.hero--responsive-image {
+    background-image: var(--hero-image-960, var(--hero-image));
+}
+
+@media (min-width: 1000px) {
+    .hero--responsive-image {
+        background-image: var(--hero-image-1440, var(--hero-image-960, var(--hero-image)));
+    }
+}
+
+@media (min-width: 1600px) {
+    .hero--responsive-image {
+        background-image: var(--hero-image-1920, var(--hero-image-1440, var(--hero-image)));
+    }
+}
+
 .hero--image::before,
 .hero--overlay::before {
     content: "";

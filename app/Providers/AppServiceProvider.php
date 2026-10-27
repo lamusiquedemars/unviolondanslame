@@ -12,9 +12,15 @@ use App\Modules\Conversations\Providers\OpenAiConversationProvider;
 use App\Modules\Media\Policies\MediaAssetPolicy;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Support\ContentPermissions;
+use App\Support\SiteFoundationAccessGate;
+use App\Support\SiteMediaAccessGate;
+use App\Support\SiteModuleAvailability;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Maracuja\SiteCore\Media\Models\MediaAsset;
+use Maracuja\SiteCore\Foundation\Contracts\FoundationAccessGate;
+use Maracuja\SiteCore\Foundation\Contracts\ModuleAvailability;
+use Maracuja\SiteCore\Media\Contracts\MediaAccessGate;
 use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +30,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Core deliberately denies editorial access until the host site maps
+        // its own authenticated users and its own module switches to Core's
+        // contracts.
+        $this->app->singleton(FoundationAccessGate::class, SiteFoundationAccessGate::class);
+        $this->app->singleton(ModuleAvailability::class, SiteModuleAvailability::class);
+        $this->app->singleton(MediaAccessGate::class, SiteMediaAccessGate::class);
+
         $this->app->bind(ConversationAiProvider::class, function (): ConversationAiProvider {
             return match (config('maracuja.conversations.ai.provider')) {
                 'fake' => new FakeConversationAiProvider,

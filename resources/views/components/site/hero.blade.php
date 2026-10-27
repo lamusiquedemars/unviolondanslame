@@ -8,17 +8,34 @@
 'secondaryCtaLabel' => null,
 'variant' => null,
 'image' => null,
+'imageSources' => [],
 'media' => null,
 ])
+
+@php
+    $imageSources = collect($imageSources)
+        ->filter(fn ($url, $width): bool => is_numeric($width) && filled($url))
+        ->mapWithKeys(fn ($url, $width): array => [(int) $width => $url])
+        ->sortKeys();
+
+    $heroStyles = $image ? ["--hero-image: url('{$image}')" => true] : [];
+
+    foreach ($imageSources as $width => $url) {
+        $heroStyles["--hero-image-{$width}: url('{$url}')"] = true;
+    }
+
+    if ($image && $imageSources->isEmpty()) {
+        $heroStyles['background-image: var(--hero-image)'] = true;
+    }
+@endphp
 
 <section
     {{ $attributes->class([
         'hero',
         'hero--' . $variant => $variant,
         'hero--image' => $image,
-    ])->style([
-        'background-image: url(' . $image . ')' => $image,
-    ]) }}>
+        'hero--responsive-image' => $imageSources->isNotEmpty(),
+    ])->style($heroStyles) }}>
     <div class="hero__inner">
         <div class="hero__content">
             @if (! empty($eyebrow))

@@ -3,6 +3,8 @@
     'alt' => '',
     'width' => null,
     'height' => null,
+    'srcset' => null,
+    'sizes' => null,
     'loading' => 'lazy',
     'decoding' => 'async',
 ])
@@ -17,6 +19,8 @@
         'alt' => $alt,
         'width' => $width,
         'height' => $height,
+    'srcset' => $srcset,
+    'sizes' => $sizes,
         'loading' => $loading,
         'decoding' => $decoding,
     ]) }}

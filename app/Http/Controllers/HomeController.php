@@ -9,6 +9,7 @@ use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Support\Modules;
 use Illuminate\Contracts\View\View;
 use Maracuja\SiteCore\Gallery\Models\Gallery;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 
 class HomeController extends Controller
 {
@@ -31,6 +32,13 @@ class HomeController extends Controller
         $homeView = config('maracuja.theme') === 'unviolondanslame'
             ? 'site.themes.unviolondanslame.home'
             : 'site.home';
+        $homePathMedia = collect(config('unviolondanslame.home_path_media', []));
+        $homePathMedia = MediaAsset::query()
+            ->whereKey($homePathMedia->filter())
+            ->get()
+            ->keyBy('id')
+            ->pipe(fn ($mediaById) => collect(config('unviolondanslame.home_path_media', []))
+                ->mapWithKeys(fn (int $mediaId, string $key) => [$key => $mediaById->get($mediaId)]));
 
         return view($homeView, [
             'settings' => $settings,
@@ -39,6 +47,7 @@ class HomeController extends Controller
             'servicesUrl' => $servicesPage ? route('pages.show', $servicesPage->slug) : null,
             'instrumentsUrl' => route('instruments.index'),
             'atelierUrl' => route('pages.show', 'atelier'),
+            'homePathMedia' => $homePathMedia,
             'homeNotice' => Modules::enabled('notices')
                 ? SiteNotice::query()->visible()->forPlacement('home')->latest('starts_at')->first()
                 : null,

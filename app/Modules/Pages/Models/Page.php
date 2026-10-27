@@ -6,6 +6,7 @@ use App\Support\MediaFiles;
 use App\Support\Modules;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 use Maracuja\SiteCore\Media\Concerns\TracksMediaUsages;
 use Maracuja\SiteCore\Media\Models\MediaAsset;
 
@@ -52,6 +53,32 @@ class Page extends Model
     public function heroImageUrl(): ?string
     {
         return $this->trackedMedia('heroMedia', $this->hero_media_id)?->url() ?? MediaFiles::url($this->hero_image_path);
+    }
+
+    /** @return array<int, string> */
+    public function heroImageSources(): array
+    {
+        $media = $this->trackedMedia('heroMedia', $this->hero_media_id);
+
+        if (! $media?->isImage()) {
+            return [];
+        }
+
+        $variants = collect($media->variants ?? [])
+            ->filter(fn (array $variant): bool => filled($variant['path'] ?? null) && filled($variant['width'] ?? null))
+            ->mapWithKeys(fn (array $variant): array => [
+                (int) $variant['width'] => Storage::disk($media->disk)->url($variant['path']),
+            ])
+            ->sortKeys();
+
+        return collect([640, 960, 1440, 1920])
+            ->mapWithKeys(function (int $targetWidth) use ($variants): array {
+                $url = $variants->first(fn (string $url, int $width): bool => $width >= $targetWidth)
+                    ?? $variants->last();
+
+                return $url ? [$targetWidth => $url] : [];
+            })
+            ->all();
     }
 
     protected function mediaUsageReferences(): array

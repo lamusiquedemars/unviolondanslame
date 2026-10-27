@@ -10,6 +10,19 @@ return [
         'directions_url' => 'https://www.google.com/maps/dir/?api=1&destination=13%20Rue%20Hector%20Berlioz%2C%2069150%20D%C3%A9cines-Charpieu',
     ],
 
+    'atelier_media' => [
+        'working' => 2,
+        'samvel' => 4,
+        'bench' => 5,
+    ],
+
+    'home_path_media' => [
+        'services' => 15,
+        'instruments' => 12,
+        'atelier' => 13,
+        'workbench' => 16,
+    ],
+
     // Local public URLs only. Supply authentic photographs before publication.
     // Each photo accepts src, srcset (optional), and a descriptive alt text.
     'photos' => [

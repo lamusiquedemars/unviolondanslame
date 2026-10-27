@@ -1,22 +1,36 @@
 @extends('layouts.site', [
     'seoTitle' => $page?->seo_title ?? ('Contact - ' . $settings->site_name),
-    'seoDescription' => $page?->seo_description ?? ('Contacter ' . $settings->site_name),
+    'seoDescription' => $page?->seo_description ?? 'Prendre rendez-vous avec David Gellé, luthier à Décines-Charpieu.',
     'seoImage' => $page?->heroImageUrl(),
 ])
 
 @section('content')
     @php($workshop = config('unviolondanslame.workshop'))
+    @php($portrait = $page?->heroMedia)
 
     <x-site.section class="uv-contact-page" aria-labelledby="contact-title">
         <div class="uv-contact-page__intro">
             <p class="eyebrow">L’atelier</p>
             <h1 id="contact-title">Parlons de votre instrument</h1>
-            <p>Vous souhaitez faire réparer ou régler un instrument, demander un renseignement, organiser un essai ou une location ? Contactez David pour lui présenter votre besoin et convenir d’un rendez-vous.</p>
+            <p>Vous souhaitez faire réparer ou régler un instrument, demander un renseignement, organiser un essai ou une location ? Écrivez-moi pour me présenter votre besoin. Je vous répondrai afin que nous convenions d’un rendez-vous à l’atelier.</p>
         </div>
 
         <div class="uv-contact-page__grid">
             <aside class="uv-contact-details" aria-label="Coordonnées de l’atelier">
-                <x-unviolondanslame.photo name="david" class="uv-contact-details__portrait" />
+                @if ($portrait)
+                    <figure class="uv-photo uv-contact-details__portrait">
+                        <x-site.image
+                            :src="$portrait->url()"
+                            :srcset="$portrait->srcset()"
+                            sizes="(max-width: 760px) min(100vw - 40px, 360px), 30vw"
+                            :alt="$portrait->alt_text ?: 'David Gellé, luthier à son atelier'"
+                            :width="$portrait->width"
+                            :height="$portrait->height"
+                        />
+                    </figure>
+                @else
+                    <x-unviolondanslame.photo name="david" class="uv-contact-details__portrait" />
+                @endif
                 <h2>{{ $workshop['name'] }}</h2>
                 <p>{{ $workshop['owner'] }}, luthier<br>{{ $workshop['address_lines'][0] }}<br>{{ $workshop['address_lines'][1] }}</p>
                 <p><a href="tel:{{ $workshop['phone_href'] }}">{{ $workshop['phone_display'] }}</a></p>
