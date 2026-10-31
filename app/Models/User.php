@@ -12,17 +12,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role', 'content_permissions', 'is_admin'])]
+#[Fillable(['name', 'email', 'password', 'role', 'content_permissions', 'is_admin', 'is_active'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser
 {
     public const ROLE_ADMIN = 'admin';
 
+    public const ROLE_MANAGER = 'manager';
+
     public const ROLE_EDITOR = 'editor';
 
     public const ROLE_VIEWER = 'viewer';
-
-    public const SUPER_ADMIN_EMAILS = ['ivo@maracujadigital.fr'];
 
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -38,6 +38,7 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'is_active' => 'boolean',
             'content_permissions' => 'array',
         ];
     }
@@ -46,14 +47,12 @@ class User extends Authenticatable implements FilamentUser
     {
         // Keep installations upgraded from the former boolean permission model
         // working until every account has been explicitly assigned a role.
-        return $this->role === self::ROLE_ADMIN
-            || $this->is_admin
-            || in_array(strtolower($this->email), self::SUPER_ADMIN_EMAILS, true);
+        return $this->role === self::ROLE_ADMIN || $this->is_admin;
     }
 
     public function canEditContent(): bool
     {
-        return in_array($this->role, [self::ROLE_ADMIN, self::ROLE_EDITOR], true);
+        return $this->isAdministrator() || in_array($this->role, [self::ROLE_MANAGER, self::ROLE_EDITOR], true);
     }
 
     public function canAccessContent(string $permission): bool
@@ -73,7 +72,11 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
+        if ($this->is_active === false) {
+            return false;
+        }
+
         return $this->isAdministrator()
-            || in_array($this->role, [self::ROLE_EDITOR, self::ROLE_VIEWER], true);
+            || in_array($this->role, [self::ROLE_MANAGER, self::ROLE_EDITOR, self::ROLE_VIEWER], true);
     }
 }

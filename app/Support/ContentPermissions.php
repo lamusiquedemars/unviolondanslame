@@ -20,6 +20,7 @@ use App\Modules\Notices\Models\SiteNotice;
 use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Modules\Venues\Models\Venue;
+use Illuminate\Database\Eloquent\Model;
 use Maracuja\SiteCore\Gallery\Models\Gallery;
 use Maracuja\SiteCore\Media\Models\MediaAsset;
 
@@ -40,7 +41,6 @@ class ContentPermissions
             'gallery' => 'Galeries',
             'events' => 'Événements',
             'venues' => 'Lieux',
-            'appointments' => 'Rendez-vous',
             'conversations' => 'Conversations',
             'audience' => 'Audience et campagnes',
         ];
@@ -68,10 +68,40 @@ class ContentPermissions
         };
     }
 
+    public static function labelsForForm(): array
+    {
+        $labels = self::labels();
+        $modules = [];
+
+        foreach ($labels as $key => $label) {
+            // Older sites provide media permanently without a module flag.
+            if ($key === 'media' && ! isset($modules[$key]) && config('maracuja.modules.media') === null) {
+                continue;
+            }
+
+            if (! Modules::enabled($modules[$key] ?? $key)) {
+                $labels[$key] = $label.' (module inactif)';
+            }
+        }
+
+        return $labels;
+    }
+
     public static function allows(User $user, ?string $model): bool
     {
         $permission = self::keyForModel($model);
 
-        return $permission === null || $user->canAccessContent($permission);
+        // These screens contain custom write actions that are not yet
+        // available in a read-only form. Never expose them to a reader.
+        if (! $user->isAdministrator() && $user->role === User::ROLE_VIEWER && in_array($permission, ['inquiries', 'audience', 'conversations'], true)) {
+            return false;
+        }
+
+        if ($permission !== null) {
+            return $user->canAccessContent($permission);
+        }
+
+        return $user->isAdministrator() || $user->content_permissions === null
+            || ! $model || ! is_a($model, Model::class, true);
     }
 }

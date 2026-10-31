@@ -3,9 +3,12 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Modules\Appointments\Models\AppointmentSetting;
+use App\Modules\Audience\Models\AudienceBrevoSetting;
 use App\Modules\Conversations\Console\Commands\PruneConversationsCommand;
 use App\Modules\Conversations\Contracts\ConversationAiProvider;
 use App\Modules\Conversations\Models\Conversation;
+use App\Modules\Conversations\Models\ConversationSetting;
 use App\Modules\Conversations\Policies\ConversationPolicy;
 use App\Modules\Conversations\Providers\FakeConversationAiProvider;
 use App\Modules\Conversations\Providers\OpenAiConversationProvider;
@@ -17,10 +20,10 @@ use App\Support\SiteMediaAccessGate;
 use App\Support\SiteModuleAvailability;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Maracuja\SiteCore\Media\Models\MediaAsset;
 use Maracuja\SiteCore\Foundation\Contracts\FoundationAccessGate;
 use Maracuja\SiteCore\Foundation\Contracts\ModuleAvailability;
 use Maracuja\SiteCore\Media\Contracts\MediaAccessGate;
+use Maracuja\SiteCore\Media\Models\MediaAsset;
 use RuntimeException;
 
 class AppServiceProvider extends ServiceProvider
@@ -82,6 +85,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function (User $user, string $ability, array $arguments): ?bool {
             $subject = $arguments[0] ?? null;
             $subjectClass = is_object($subject) ? $subject::class : $subject;
+
+            if (! $user->isAdministrator() && in_array($subjectClass, [User::class, AudienceBrevoSetting::class, AppointmentSetting::class, ConversationSetting::class], true)) {
+                return false;
+            }
 
             if (! ContentPermissions::allows($user, $subjectClass)) {
                 return false;
