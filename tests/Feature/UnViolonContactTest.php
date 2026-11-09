@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Modules\Inquiries\Models\Inquiry;
+use App\Modules\SiteSettings\Models\SiteSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,12 +13,18 @@ class UnViolonContactTest extends TestCase
     public function test_contact_page_displays_the_workshop_details_and_no_fake_photo_upload(): void
     {
         config(['maracuja.theme' => 'unviolondanslame']);
+        SiteSetting::current()->update([
+            'site_name' => 'Un violon dans l’âme',
+            'contact_email' => 'atelier@unviolondanslame.fr',
+        ]);
 
         $this->get('/contact')
             ->assertOk()
             ->assertSee('David Gellé, luthier')
             ->assertSee('13 rue Hector Berlioz')
             ->assertSee('06 51 25 54 15')
+            ->assertSee('atelier@unviolondanslame.fr')
+            ->assertSee('Luthier à Décines-Charpieu et dans l’Est lyonnais', false)
             ->assertSee('Accueil uniquement sur rendez-vous.')
             ->assertDontSee('type="file"', false)
             ->assertSee('https://www.google.com/maps/dir/?api=1&amp;destination=', false);

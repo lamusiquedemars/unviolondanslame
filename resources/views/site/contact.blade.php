@@ -1,6 +1,6 @@
 @extends('layouts.site', [
-    'seoTitle' => $page?->seo_title ?? ('Contact - ' . $settings->site_name),
-    'seoDescription' => $page?->seo_description ?? 'Prendre rendez-vous avec David Gellé, luthier à Décines-Charpieu.',
+    'seoTitle' => $page?->seo_title ?? ('Contact · Luthier à Décines-Charpieu et dans l’Est lyonnais | ' . $settings->site_name),
+    'seoDescription' => $page?->seo_description ?? 'Contactez David Gellé, luthier à Décines-Charpieu, pour un réglage, une réparation, une restauration, un essai ou une location dans l’Est lyonnais.',
     'seoImage' => $page?->heroImageUrl(),
 ])
 
@@ -34,6 +34,9 @@
                 <h2>{{ $workshop['name'] }}</h2>
                 <p>{{ $workshop['owner'] }}, luthier<br>{{ $workshop['address_lines'][0] }}<br>{{ $workshop['address_lines'][1] }}</p>
                 <p><a href="tel:{{ $workshop['phone_href'] }}">{{ $workshop['phone_display'] }}</a></p>
+                @if ($settings->contact_email)
+                    <p><a href="mailto:{{ $settings->contact_email }}">{{ $settings->contact_email }}</a></p>
+                @endif
                 <p class="uv-contact-details__appointment">Accueil uniquement sur rendez-vous.</p>
             </aside>
 

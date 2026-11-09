@@ -5,6 +5,7 @@ namespace App\Modules\Inquiries\Filament\Resources\Inquiries;
 use App\Modules\Audience\Actions\CreateContactFromInquiry;
 use App\Modules\Inquiries\Enums\InquiryStatus;
 use App\Modules\Inquiries\Filament\Resources\Inquiries\Pages\ManageInquiries;
+use App\Modules\Inquiries\Filament\Resources\Inquiries\Pages\ViewInquiry;
 use App\Modules\Inquiries\Models\Inquiry;
 use App\Modules\Inquiries\Support\InquiryReplyLink;
 use App\Support\Modules;
@@ -15,12 +16,16 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -160,6 +165,7 @@ class InquiryResource extends Resource
                     ->options(self::statusOptions()),
             ])
             ->recordActions([
+                ViewAction::make()->label('Ouvrir'),
                 Action::make('reply')
                     ->label('Répondre')
                     ->icon(Heroicon::OutlinedEnvelope)
@@ -216,6 +222,7 @@ class InquiryResource extends Resource
                 EditAction::make(),
                 DeleteAction::make(),
             ])
+            ->recordUrl(fn (Inquiry $record): string => self::getUrl('view', ['record' => $record]))
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
@@ -227,10 +234,37 @@ class InquiryResource extends Resource
     {
         return [
             'index' => ManageInquiries::route('/'),
+            'view' => ViewInquiry::route('/{record}'),
         ];
     }
 
-    private static function statusOptions(): array
+    public static function infolist(Schema $schema): Schema
+    {
+        return $schema->columns(3)->components([
+            Section::make('Demande')->columnSpan(2)->schema([
+                TextEntry::make('subject')->label('Sujet')->placeholder('Sans objet')->weight('semibold'),
+                TextEntry::make('message')->label('Message')->columnSpanFull(),
+                TextEntry::make('internal_notes')->label('Notes internes')->placeholder('Aucune note')->columnSpanFull(),
+            ]),
+            Section::make('Suivi')->schema([
+                TextEntry::make('status')->label('Statut')->badge()
+                    ->formatStateUsing(fn (InquiryStatus|string|null $state): string => self::statusFrom($state)?->label() ?? '—'),
+                TextEntry::make('created_at')->label('Reçue le')->dateTime('d/m/Y H:i'),
+                TextEntry::make('read_at')->label('Consultée le')->dateTime('d/m/Y H:i')->placeholder('Pas encore'),
+                TextEntry::make('handled_at')->label('Traitée le')->dateTime('d/m/Y H:i')->placeholder('Pas encore'),
+            ]),
+            Section::make('Coordonnées déclarées')->columnSpan(2)->schema([
+                Grid::make(2)->schema([
+                    TextEntry::make('name')->label('Nom'),
+                    TextEntry::make('email')->label('E-mail')->copyable(),
+                    TextEntry::make('phone')->label('Téléphone')->copyable()->placeholder('—'),
+                    TextEntry::make('consent_at')->label('Consentement')->dateTime('d/m/Y H:i')->placeholder('Non enregistré'),
+                ]),
+            ]),
+        ]);
+    }
+
+    public static function statusOptions(): array
     {
         return collect(InquiryStatus::cases())
             ->mapWithKeys(fn (InquiryStatus $status) => [$status->value => $status->label()])

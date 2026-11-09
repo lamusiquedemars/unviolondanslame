@@ -1,7 +1,7 @@
 @extends('layouts.site', [
     'brandName' => "Un violon dans l'âme",
-    'seoTitle' => "Luthier à Décines-Charpieu | Un violon dans l'âme",
-    'seoDescription' => 'Atelier de lutherie à Décines-Charpieu : réparation, restauration, réglage, entretien, vente et location de violons, altos, violoncelles et contrebasses.',
+    'seoTitle' => "Luthier à Décines-Charpieu et dans l’Est lyonnais | Un violon dans l'âme",
+    'seoDescription' => 'Atelier de lutherie à Décines-Charpieu, au service de l’Est lyonnais : réparation, restauration, réglage, entretien, vente et location de violons, altos, violoncelles et contrebasses.',
     'seoImage' => $homePage?->heroImageUrl() ?? config('unviolondanslame.photos.hero.src'),
 ])
 
@@ -31,7 +31,7 @@
                 <p class="eyebrow">David Gellé · Luthier · Décines-Charpieu</p>
                 <h1 id="accueil-titre">Un violon dans l'âme</h1>
                 <p class="uv-hero__promise">Au service des instruments<br class="uv-desktop-break"> et de ceux qui les font vivre.</p>
-                <p class="uv-hero__description">Dans mon atelier à Décines-Charpieu, je règle, entretiens, répare et restaure violons, altos, violoncelles et contrebasses. Je propose aussi des instruments à la vente et à la location, et vous reçois sur rendez-vous.</p>
+                <p class="uv-hero__description">Dans mon atelier à Décines-Charpieu, au cœur de l’Est lyonnais, je règle, entretiens, répare et restaure violons, altos, violoncelles et contrebasses. Je propose aussi des instruments à la vente et à la location, et vous reçois sur rendez-vous.</p>
                 <div class="cluster uv-actions">
                     <x-site.button :href="$contactUrl">Prendre rendez-vous</x-site.button>
                     <x-site.button :href="$servicesUrl ?? '#services'" variant="secondary">Découvrir les services</x-site.button>

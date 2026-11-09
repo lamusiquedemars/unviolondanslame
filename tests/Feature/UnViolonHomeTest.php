@@ -27,7 +27,8 @@ class UnViolonHomeTest extends TestCase
         ]);
 
         $response = $this->get('/')->assertOk()
-            ->assertSee("Luthier à Décines-Charpieu | Un violon dans l'âme")
+            ->assertSee('Luthier à Décines-Charpieu et dans l’Est lyonnais')
+            ->assertSee('au cœur de l’Est lyonnais')
             ->assertSee('noindex, nofollow')
             ->assertSee('Photographie à venir')
             ->assertDontSee('Actualités démo')
