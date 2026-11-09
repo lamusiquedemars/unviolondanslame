@@ -31,7 +31,7 @@
 @endphp
 
 @if ($links->isNotEmpty())
-    <nav {{ $attributes->class('social-links') }} aria-label="Réseaux sociaux">
+    <nav class="social-links" aria-label="Réseaux sociaux">
         @foreach ($links as $link)
             <a
                 class="social-links__link"
