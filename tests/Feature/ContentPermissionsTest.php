@@ -102,7 +102,9 @@ class ContentPermissionsTest extends TestCase
 
         $editor->refresh();
         $this->assertSame(['notices', 'catalogue'], $editor->content_permissions);
-        $this->actingAs($editor)->get($homeUrl)->assertOk();
+        $this->actingAs($editor)->get($homeUrl)
+            ->assertOk()
+            ->assertSee('css/maracuja-digital/site-core-catalogue/catalogue-workspace.css');
         $this->get($itemsUrl)->assertOk();
         $this->get('/admin/users')->assertForbidden();
 
