@@ -13,7 +13,7 @@
         "maracuja-digital/site-core-foundation": "dev-main",
         "maracuja-digital/site-core-gallery": "dev-main",
         "maracuja-digital/site-core-media": "dev-main",
-        "maracuja-digital/site-core-instruments": "dev-main"
+        "maracuja-digital/site-core-catalogue": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

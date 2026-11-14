@@ -12,7 +12,6 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PublicStorageController;
 use App\Http\Controllers\RobotsController;
 use App\Http\Controllers\SitemapController;
-use Maracuja\SiteCore\Instruments\Http\Controllers\InstrumentProjectionController;
 use App\Modules\Appointments\Http\Controllers\AppointmentController;
 use App\Modules\Conversations\Http\Controllers\PublicConversationController;
 use App\Support\Modules;
@@ -28,11 +27,6 @@ Route::get('/storage/{path}', PublicStorageController::class)
 
 Route::get('/', HomeController::class)->name('home');
 
-// Cremona is the sole authority for this projection. This endpoint only receives
-// published public data; the website never writes an instrument back to Cremona.
-Route::post('/api/internal/cremona/instruments', [InstrumentProjectionController::class, 'store'])
-    ->withoutMiddleware(['web'])
-    ->name('cremona.instruments.store');
 Route::get('/instruments', [InstrumentController::class, 'index'])->name('instruments.index');
 Route::get('/instruments/{slug}', [InstrumentController::class, 'show'])->name('instruments.show');
 

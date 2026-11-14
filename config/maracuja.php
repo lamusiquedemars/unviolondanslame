@@ -119,6 +119,7 @@ return [
         'appointments' => env('MARACUJA_MODULE_APPOINTMENTS', false),
         'audience' => env('MARACUJA_MODULE_AUDIENCE', false),
         'campaigns' => env('MARACUJA_MODULE_CAMPAIGNS', false),
+        'catalogue' => env('MARACUJA_MODULE_CATALOGUE', true),
     ],
 
     'developer_tools' => [
@@ -144,6 +145,7 @@ return [
             'appointments' => false,
             'audience' => false,
             'campaigns' => false,
+            'catalogue' => true,
         ],
         'signature' => [
             'site_settings' => true,
@@ -162,6 +164,7 @@ return [
             'appointments' => false,
             'audience' => false,
             'campaigns' => false,
+            'catalogue' => true,
         ],
         'univers' => [
             'site_settings' => true,

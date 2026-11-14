@@ -11,21 +11,21 @@
         <div class="uv-instrument-grid">
             @forelse ($instruments as $instrument)
                 @php($photo = collect($instrument->media)->first(fn ($media) => filled($media['url'] ?? null)))
-                <article class="uv-instrument-card {{ $instrument->isSold() ? 'is-sold' : '' }}">
-                    <a href="{{ route('instruments.show', $instrument->slug) }}" aria-label="Voir {{ $instrument->name }}">
+                <article class="uv-instrument-card {{ $instrument->availability === 'sold' ? 'is-sold' : '' }}">
+                    <a href="{{ route('instruments.show', $instrument->slug) }}" aria-label="Voir {{ $instrument->title }}">
                         <div class="uv-instrument-card__media">
                             @if ($photo)
-                                <img src="{{ $photo['url'] }}" alt="{{ $photo['alt'] ?? $photo['caption'] ?? $instrument->name }}" loading="lazy">
+                                <img src="{{ $photo['url'] }}" alt="{{ $photo['alt'] ?? $instrument->title }}" loading="lazy">
                             @else
                                 <span>Photographie à venir</span>
                             @endif
                         </div>
                         <div class="uv-instrument-card__content">
-                            <p>{{ $instrument->family ?: 'Instrument' }}</p>
-                            <h2>{{ $instrument->name }}</h2>
-                            @if ($instrument->maker)<span>{{ $instrument->maker }}</span>@endif
-                            <strong>{{ $instrument->displayPrice() }}</strong>
-                            @if ($instrument->isSold())<em>Vendu</em>@endif
+                            <p>{{ $instrument->categories->first()?->name ?? 'Instrument' }}</p>
+                            <h2>{{ $instrument->title }}</h2>
+                            @if ($instrument->subtitle)<span>{{ $instrument->subtitle }}</span>@endif
+                            <strong>{{ $instrument->price_label ?? 'Prix sur demande' }}</strong>
+                            @if ($instrument->availability === 'sold')<em>Vendu</em>@endif
                         </div>
                     </a>
                 </article>
