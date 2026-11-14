@@ -16,6 +16,11 @@
         $contactUrl = route('contact', ['subject' => 'Essai — '.$instrument->title, 'instrument' => $instrument->reference ?: $instrument->id]);
     @endphp
     <section class="uv-instrument-detail">
+        <x-site.breadcrumb :items="[
+            ['label' => 'Instruments', 'url' => route('instruments.index')],
+            ['label' => $instrument->title],
+        ]" />
+
         <div class="container uv-instrument-detail__hero">
             <div>
                 <p class="eyebrow">{{ $instrument->categories->first()?->name ?? 'Instrument' }}</p>
