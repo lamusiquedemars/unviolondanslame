@@ -6,9 +6,11 @@ visibles et accessibles pour un compte donné. Elles ne remplacent pas les modul
 
 ## Comptes existants
 
-Les rôles restent `admin`, `editor` et `viewer`.
+Les rôles sont `admin`, `manager`, `editor` et `viewer`.
 
 - Un administrateur a accès à tout.
+- Un responsable (`manager`) ou éditeur peut utiliser les fonctions qui lui
+  sont attribuées, mais ne gère ni les comptes ni les réglages internes.
 - Un éditeur ou lecteur dont `content_permissions` vaut `null` conserve le
   comportement historique du starter.
 - Dès que `content_permissions` contient un tableau, celui-ci est restrictif :
@@ -17,6 +19,15 @@ Les rôles restent `admin`, `editor` et `viewer`.
 
 Les contrôles sont appliqués par les autorisations Laravel. Filament retire les
 rubriques du menu et refuse également les URL directes.
+
+Dans **Réglages > Utilisateurs**, l'administrateur peut créer, modifier,
+désactiver ou supprimer un autre compte. La suppression est définitive et
+demande confirmation ; un administrateur actif ne peut pas supprimer son propre
+compte. Les conversations et médias restent conservés lorsque leur lien vers
+le compte supprimé est nullable. La désactivation permet de retirer l'accès
+sans supprimer le compte. Les écrans Demandes, Conversations et Audience ne
+sont pas proposés au lecteur tant que leurs actions ne sont pas adaptées à la
+lecture seule.
 
 ## Créer un éditeur limité
 
@@ -35,7 +46,7 @@ Capacités disponibles :
 
 ```txt
 pages, notices, content_slots, news, articles, inquiries, contacts,
-media, gallery, events, venues, appointments, conversations, audience
+media, gallery, events, venues, conversations, audience
 ```
 
 Pour les installations existantes, déployer le code et la migration

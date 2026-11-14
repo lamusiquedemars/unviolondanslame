@@ -338,7 +338,7 @@ class CreateBrevoCampaignTest extends TestCase
     {
         Http::fake();
 
-        config(['app.url' => 'http://unviolondanslame.local']);
+        config(['app.url' => 'http://example.test']);
 
         AudienceBrevoSetting::query()->create([
             'is_enabled' => true,
