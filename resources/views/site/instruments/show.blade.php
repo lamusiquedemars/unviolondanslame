@@ -1,11 +1,12 @@
 @extends('layouts.site', [
     'seoTitle' => $instrument->seo_title ?: $instrument->title . " | Un violon dans l’âme",
-    'seoDescription' => $instrument->description,
+    'seoDescription' => $instrument->seo_description ?: \Illuminate\Support\Str::squish(strip_tags((string) $instrument->description)),
 ])
 
 @section('content')
     @php
-        $photos = collect($instrument->media)->filter(fn ($media) => filled($media['url'] ?? null));
+        $photos = collect($instrument->resolvedMedia());
+        $description = \App\Support\ArticleBlocks::cleanRichText((string) $instrument->description);
         $characteristics = collect($instrument->attributes)->map(function ($attribute, $key) {
             if (! is_array($attribute)) return ['label' => $key, 'value' => $attribute];
             if (! ($attribute['is_public'] ?? false)) return null;
@@ -20,9 +21,9 @@
                 <p class="eyebrow">{{ $instrument->categories->first()?->name ?? 'Instrument' }}</p>
                 <h1>{{ $instrument->title }}</h1>
                 @if ($instrument->subtitle)<p class="uv-instrument-detail__maker">{{ $instrument->subtitle }}</p>@endif
-                <p class="uv-instrument-detail__price">{{ $instrument->price_label ?? 'Prix sur demande' }}</p>
+                <p class="uv-instrument-detail__price">{{ $instrument->displayPrice() ?? 'Prix sur demande' }}</p>
                 @if ($instrument->availability === 'sold')<p class="uv-instrument-detail__sold">Cet instrument est vendu.</p>@endif
-                @if ($instrument->description)<p class="uv-instrument-detail__description">{{ $instrument->description }}</p>@endif
+                @if ($description)<div class="uv-instrument-detail__description">{!! $description !!}</div>@endif
                 <x-site.button :href="$contactUrl">{{ $instrument->availability === 'sold' ? 'Chercher un instrument similaire' : 'Demander un essai' }}</x-site.button>
             </div>
             @if ($hero = $photos->first())
