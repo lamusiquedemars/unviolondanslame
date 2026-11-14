@@ -37,6 +37,7 @@ class Modules
             'conversations' => app_path('Modules/Conversations'),
             'audience' => app_path('Modules/Audience'),
             'campaigns' => app_path('Modules/Campaigns'),
+            'catalogue' => base_path('vendor/maracuja-digital/site-core-catalogue'),
         ];
 
         return is_dir($paths[$module] ?? app_path('Modules/'.str($module)->studly()));

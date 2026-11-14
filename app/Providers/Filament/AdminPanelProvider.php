@@ -22,6 +22,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Maracuja\SiteCore\Catalogue\Filament\Pages\CatalogueHome;
 use Maracuja\SiteCore\Gallery\Filament\Resources\Galleries\GalleryResource;
 use Maracuja\SiteCore\Media\Filament\Resources\MediaAssets\MediaAssetResource;
 
@@ -104,6 +105,13 @@ class AdminPanelProvider extends PanelProvider
                 in: app_path('Modules/Audience/Filament/Resources'),
                 for: 'App\Modules\Audience\Filament\Resources',
             );
+        }
+
+        if (Modules::enabled('catalogue') && is_dir(base_path('vendor/maracuja-digital/site-core-catalogue/src/Filament/Resources'))) {
+            $panel->discoverResources(
+                in: base_path('vendor/maracuja-digital/site-core-catalogue/src/Filament/Resources'),
+                for: 'Maracuja\\SiteCore\\Catalogue\\Filament\\Resources',
+            )->pages([CatalogueHome::class]);
         }
 
         $panel->resources(array_filter([
