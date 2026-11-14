@@ -10,7 +10,7 @@
     <x-site.section title="La sélection de l’atelier" intro="Chaque instrument présenté est disponible à l’essai sur rendez-vous.">
         <div class="uv-instrument-grid">
             @forelse ($instruments as $instrument)
-                @php($photo = collect($instrument->media)->first(fn ($media) => filled($media['url'] ?? null)))
+                @php($photo = $instrument->primaryMedia())
                 <article class="uv-instrument-card {{ $instrument->availability === 'sold' ? 'is-sold' : '' }}">
                     <a href="{{ route('instruments.show', $instrument->slug) }}" aria-label="Voir {{ $instrument->title }}">
                         <div class="uv-instrument-card__media">
@@ -24,7 +24,7 @@
                             <p>{{ $instrument->categories->first()?->name ?? 'Instrument' }}</p>
                             <h2>{{ $instrument->title }}</h2>
                             @if ($instrument->subtitle)<span>{{ $instrument->subtitle }}</span>@endif
-                            <strong>{{ $instrument->price_label ?? 'Prix sur demande' }}</strong>
+                            <strong>{{ $instrument->displayPrice() ?? 'Prix sur demande' }}</strong>
                             @if ($instrument->availability === 'sold')<em>Vendu</em>@endif
                         </div>
                     </a>
