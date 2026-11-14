@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Models\User;
+use App\Modules\Audience\Models\AudienceContact;
 use App\Modules\Inquiries\Models\Inquiry;
 use App\Modules\News\Models\NewsPost;
 use App\Modules\Notices\Models\SiteNotice;
@@ -60,6 +61,18 @@ class ContentPermissionsTest extends TestCase
         $this->assertTrue(Gate::forUser($user)->allows('create', SiteNotice::class));
         $this->assertFalse(Gate::forUser($user)->allows('viewAny', NewsPost::class));
         $this->actingAs($user)->get('/admin/users')->assertForbidden();
+    }
+
+    public function test_editor_with_inquiries_access_cannot_create_an_audience_contact(): void
+    {
+        $user = User::factory()->create([
+            'role' => User::ROLE_EDITOR,
+            'is_admin' => false,
+            'content_permissions' => ['inquiries'],
+        ]);
+
+        $this->assertTrue(Gate::forUser($user)->allows('viewAny', Inquiry::class));
+        $this->assertFalse(Gate::forUser($user)->allows('create', AudienceContact::class));
     }
 
     public function test_administrator_can_choose_functions_for_an_existing_account(): void
