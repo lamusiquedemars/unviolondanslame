@@ -21,6 +21,9 @@ use App\Modules\Pages\Models\Page;
 use App\Modules\SiteSettings\Models\SiteSetting;
 use App\Modules\Venues\Models\Venue;
 use Illuminate\Database\Eloquent\Model;
+use Maracuja\SiteCore\Catalogue\Models\CatalogueCategory;
+use Maracuja\SiteCore\Catalogue\Models\CatalogueCollection;
+use Maracuja\SiteCore\Catalogue\Models\CatalogueItem;
 use Maracuja\SiteCore\Gallery\Models\Gallery;
 use Maracuja\SiteCore\Media\Models\MediaAsset;
 
@@ -43,6 +46,7 @@ class ContentPermissions
             'venues' => 'Lieux',
             'conversations' => 'Conversations',
             'audience' => 'Audience et campagnes',
+            'catalogue' => 'Catalogue',
         ];
     }
 
@@ -63,6 +67,7 @@ class ContentPermissions
             AppointmentSetting::class => 'appointments',
             Conversation::class, ConversationSetting::class => 'conversations',
             AudienceContact::class, AudienceSegment::class, SegmentMessage::class, AudienceBrevoSetting::class => 'audience',
+            CatalogueCollection::class, CatalogueCategory::class, CatalogueItem::class => 'catalogue',
             SiteSetting::class => 'site_settings',
             default => null,
         };

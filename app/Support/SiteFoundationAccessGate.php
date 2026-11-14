@@ -28,6 +28,7 @@ final class SiteFoundationAccessGate implements FoundationAccessGate
             'events.manage', 'events.participants.manage' => 'events',
             'events.venues.manage' => 'venues',
             'contact.requests.manage' => 'inquiries',
+            'catalogue.manage' => 'catalogue',
             'foundation.pages.manage' => 'pages',
             'foundation.content.manage' => 'content_slots',
             'foundation.notices.manage' => 'notices',

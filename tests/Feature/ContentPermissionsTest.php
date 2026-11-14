@@ -12,6 +12,8 @@ use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
+use Maracuja\SiteCore\Catalogue\Filament\Pages\CatalogueHome;
+use Maracuja\SiteCore\Catalogue\Filament\Resources\CatalogueItems\CatalogueItemResource;
 use Tests\TestCase;
 
 class ContentPermissionsTest extends TestCase
@@ -73,6 +75,49 @@ class ContentPermissionsTest extends TestCase
 
         $this->assertTrue(Gate::forUser($user)->allows('viewAny', Inquiry::class));
         $this->assertFalse(Gate::forUser($user)->allows('create', AudienceContact::class));
+    }
+
+    public function test_administrator_can_grant_and_revoke_catalogue_access(): void
+    {
+        $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'is_admin' => true]);
+        $editor = User::factory()->create([
+            'role' => User::ROLE_EDITOR,
+            'is_admin' => false,
+            'content_permissions' => ['notices'],
+        ]);
+        $homeUrl = CatalogueHome::getUrl(panel: 'admin');
+        $itemsUrl = CatalogueItemResource::getUrl(panel: 'admin');
+
+        $this->actingAs($editor)->get($homeUrl)->assertForbidden();
+        $this->get($itemsUrl)->assertForbidden();
+
+        $this->actingAs($admin);
+        Filament::setCurrentPanel(Filament::getPanel('admin'));
+
+        Livewire::test(EditUser::class, ['record' => $editor->getKey()])
+            ->assertSee('Catalogue')
+            ->fillForm(['content_permissions' => ['notices', 'catalogue']])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $editor->refresh();
+        $this->assertSame(['notices', 'catalogue'], $editor->content_permissions);
+        $this->actingAs($editor)->get($homeUrl)->assertOk();
+        $this->get($itemsUrl)->assertOk();
+        $this->get('/admin/users')->assertForbidden();
+
+        $this->actingAs($admin);
+        Filament::setCurrentPanel(Filament::getPanel('admin'));
+
+        Livewire::test(EditUser::class, ['record' => $editor->getKey()])
+            ->fillForm(['content_permissions' => ['notices']])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $editor->refresh();
+        $this->assertSame(['notices'], $editor->content_permissions);
+        $this->actingAs($editor)->get($homeUrl)->assertForbidden();
+        $this->get($itemsUrl)->assertForbidden();
     }
 
     public function test_administrator_can_choose_functions_for_an_existing_account(): void
