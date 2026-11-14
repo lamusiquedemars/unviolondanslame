@@ -216,7 +216,11 @@ class PublicSiteTest extends TestCase
 
     public function test_home_renders_active_notice_only(): void
     {
-        SiteSetting::current();
+        $theme = config('maracuja.theme');
+        config(['maracuja.theme' => 'unviolondanslame']);
+
+        try {
+            SiteSetting::current();
 
         Page::query()->create([
             'title' => 'Accueil',
@@ -245,11 +249,14 @@ class PublicSiteTest extends TestCase
             'ends_at' => now()->subDay(),
         ]);
 
-        $this->get('/')
-            ->assertOk()
-            ->assertSee('Horaires d’été')
-            ->assertSee('Ouverture exceptionnelle')
-            ->assertDontSee('Ancienne annonce');
+            $this->get('/')
+                ->assertOk()
+                ->assertSee('Horaires d’été')
+                ->assertSee('Ouverture exceptionnelle')
+                ->assertDontSee('Ancienne annonce');
+        } finally {
+            config(['maracuja.theme' => $theme]);
+        }
     }
 
     public function test_home_news_list_hides_expired_posts(): void

@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -27,19 +26,6 @@ return new class extends Migration
                 ->nullOnDelete();
         });
 
-        $galleryId = DB::table('galleries')->insertGetId([
-            'title' => 'Galerie principale',
-            'slug' => 'home',
-            'intro' => null,
-            'position' => 1,
-            'is_published' => true,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('gallery_images')->whereNull('gallery_id')->update([
-            'gallery_id' => $galleryId,
-        ]);
     }
 
     public function down(): void

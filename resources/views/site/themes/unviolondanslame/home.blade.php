@@ -21,6 +21,12 @@
     </header>
 @endsection
 @section('content')
+    @if ($homeNotice)
+        <div class="container notice-wrap">
+            <x-site.notice :notice="$homeNotice" />
+        </div>
+    @endif
+
     @php
         $heroImage = $homePage?->heroImageUrl() ?? config('unviolondanslame.photos.hero.src');
         $heroStyle = $heroImage ? "--hero-image: url('{$heroImage}'); background-image: var(--hero-image);" : null;
