@@ -29,7 +29,15 @@ class InstrumentCatalogueTest extends TestCase
         ]);
 
         $this->get('/instruments')->assertOk()->assertSee('Violon de l’atelier')->assertSee('Archet vendu')->assertDontSee('Brouillon');
-        $this->get('/instruments/violon-atelier')->assertOk()->assertSee('Violon de l’atelier');
+        $this->get('/instruments/violon-atelier')
+            ->assertOk()
+            ->assertSeeInOrder([
+                '<ol class="breadcrumb__list">',
+                '<a href="'.route('instruments.index').'">Instruments</a>',
+                'aria-current="page"',
+                '<span>Violon de l’atelier</span>',
+                '</nav>',
+            ], false);
         $this->postJson('/api/internal/cremona/instruments', [])->assertNotFound();
     }
 }
