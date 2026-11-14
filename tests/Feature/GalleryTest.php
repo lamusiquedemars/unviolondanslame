@@ -19,12 +19,12 @@ class GalleryTest extends TestCase
         $this->assertSame('galerie-atelier', $gallery->slug);
     }
 
-    public function test_system_gallery_can_be_identified(): void
+    public function test_home_gallery_is_not_reserved_by_the_template(): void
     {
         $gallery = Gallery::query()->updateOrCreate(['slug' => 'home'], [
             'title' => 'Accueil',
         ]);
 
-        $this->assertTrue($gallery->isSystemGallery());
+        $this->assertFalse($gallery->isSystemGallery());
     }
 }

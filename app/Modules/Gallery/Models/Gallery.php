@@ -31,10 +31,7 @@ class Gallery extends Model
 
     public function isSystemGallery(): bool
     {
-        return in_array($this->slug, [
-            'home',
-            config('maracuja.gallery.slug', 'home'),
-        ], true);
+        return false;
     }
 
     protected static function booted(): void
