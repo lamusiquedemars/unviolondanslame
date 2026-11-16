@@ -1,11 +1,18 @@
 @extends('layouts.site', [
     'seoTitle' => $page?->seo_title ?? "Instruments | Un violon dans l’âme",
     'seoDescription' => $page?->seo_description ?? 'Instruments sélectionnés par David, luthier à Décines-Charpieu.',
+    'seoImage' => $page?->heroImageUrl(),
 ])
 
 @section('content')
-    <x-site.hero eyebrow="Instruments" :title="$page?->hero_title ?? 'Instruments à découvrir'"
-        :subtitle="$page?->hero_subtitle ?? 'Une sélection d’instruments préparés pour être essayés à l’atelier.'" />
+    <x-site.hero
+        class="uv-instruments-hero"
+        eyebrow="Instruments"
+        :title="$page?->hero_title ?? 'Instruments à découvrir'"
+        :subtitle="$page?->hero_subtitle ?? 'Une sélection d’instruments préparés pour être essayés à l’atelier.'"
+        :image="$page?->heroImageUrl()"
+        :image-sources="$page?->heroImageSources()"
+    />
 
     <x-site.section title="La sélection de l’atelier" intro="Chaque instrument présenté est disponible à l’essai sur rendez-vous.">
         <div class="uv-instrument-grid">

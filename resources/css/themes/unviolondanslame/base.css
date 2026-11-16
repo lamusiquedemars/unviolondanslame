@@ -544,6 +544,20 @@
     background: rgb(255 250 243 / 14%);
     color: #ffffff;
 }
+.theme-unviolondanslame .uv-instruments-hero {
+    background-position: center 42%;
+}
+.theme-unviolondanslame .uv-instruments-hero .hero__inner {
+    min-height: clamp(400px, 48vw, 600px);
+    align-content: end;
+}
+.theme-unviolondanslame .uv-instruments-hero :where(h1, h2, h3, p),
+.theme-unviolondanslame .uv-instruments-hero .eyebrow {
+    color: #fffaf3;
+}
+@media (max-width: 700px) {
+    .theme-unviolondanslame .uv-instruments-hero .hero__inner { min-height: 440px; }
+}
 .theme-unviolondanslame .uv-service-card { min-height: 0; }
 .theme-unviolondanslame .uv-service-card h3 { font-size: 1.7rem; }
 .theme-unviolondanslame .uv-service-card > p:not(.card__kicker) { color: var(--color-muted); }
